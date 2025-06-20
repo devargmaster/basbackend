@@ -1,0 +1,31 @@
+services:
+  corewebapi:
+    container_name: corewebapi
+    image: corewebapi
+    build:
+      context: .
+      dockerfile: CoreWebApi/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sql_server_container;Database=BasChallenge;User Id=sa;Password=BasBackend!;TrustServerCertificate=True
+    networks:
+      - mynetwork
+    ports:
+      - "8080:8080"
+    depends_on:
+      - sql_server_container
+
+  sql_server_container:
+    platform: linux/amd64
+    container_name: sql_server_container
+    image: mcr.microsoft.com/mssql/server:latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=BasBackend!
+    networks:
+      - mynetwork
+    ports:
+      - "1433:1433"
+
+networks:
+  mynetwork:
