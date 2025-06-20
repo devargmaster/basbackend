@@ -1,0 +1,11 @@
+/Users/warce/BASChallenge/backend/Infraestructure/bin/Debug/net9.0/Infraestructure.deps.json
+/Users/warce/BASChallenge/backend/Infraestructure/bin/Debug/net9.0/Infraestructure.dll
+/Users/warce/BASChallenge/backend/Infraestructure/bin/Debug/net9.0/Infraestructure.pdb
+/Users/warce/BASChallenge/backend/Infraestructure/obj/Debug/net9.0/Infraestructure.GeneratedMSBuildEditorConfig.editorconfig
+/Users/warce/BASChallenge/backend/Infraestructure/obj/Debug/net9.0/Infraestructure.AssemblyInfoInputs.cache
+/Users/warce/BASChallenge/backend/Infraestructure/obj/Debug/net9.0/Infraestructure.AssemblyInfo.cs
+/Users/warce/BASChallenge/backend/Infraestructure/obj/Debug/net9.0/Infraestructure.csproj.CoreCompileInputs.cache
+/Users/warce/BASChallenge/backend/Infraestructure/obj/Debug/net9.0/Infraestructure.dll
+/Users/warce/BASChallenge/backend/Infraestructure/obj/Debug/net9.0/refint/Infraestructure.dll
+/Users/warce/BASChallenge/backend/Infraestructure/obj/Debug/net9.0/Infraestructure.pdb
+/Users/warce/BASChallenge/backend/Infraestructure/obj/Debug/net9.0/ref/Infraestructure.dll
