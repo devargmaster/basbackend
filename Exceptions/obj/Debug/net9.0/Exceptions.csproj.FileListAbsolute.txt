@@ -1,0 +1,11 @@
+/Users/warce/BASChallenge/backend/Exceptions/bin/Debug/net9.0/Exceptions.deps.json
+/Users/warce/BASChallenge/backend/Exceptions/bin/Debug/net9.0/Exceptions.dll
+/Users/warce/BASChallenge/backend/Exceptions/bin/Debug/net9.0/Exceptions.pdb
+/Users/warce/BASChallenge/backend/Exceptions/obj/Debug/net9.0/Exceptions.GeneratedMSBuildEditorConfig.editorconfig
+/Users/warce/BASChallenge/backend/Exceptions/obj/Debug/net9.0/Exceptions.AssemblyInfoInputs.cache
+/Users/warce/BASChallenge/backend/Exceptions/obj/Debug/net9.0/Exceptions.AssemblyInfo.cs
+/Users/warce/BASChallenge/backend/Exceptions/obj/Debug/net9.0/Exceptions.csproj.CoreCompileInputs.cache
+/Users/warce/BASChallenge/backend/Exceptions/obj/Debug/net9.0/Exceptions.dll
+/Users/warce/BASChallenge/backend/Exceptions/obj/Debug/net9.0/refint/Exceptions.dll
+/Users/warce/BASChallenge/backend/Exceptions/obj/Debug/net9.0/Exceptions.pdb
+/Users/warce/BASChallenge/backend/Exceptions/obj/Debug/net9.0/ref/Exceptions.dll
