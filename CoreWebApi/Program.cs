@@ -7,14 +7,12 @@ using CoreWebApi.Models.Entities;
 using Infraestructure.Contexts;
 using Infraestructure.Repositories;
 using Microsoft.OpenApi.Models;
-using Microsoft.EntityFrameworkCore; // Asegúrate de que este using esté presente
+using Microsoft.EntityFrameworkCore; 
 using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // --- Configuración de Servicios ---
-
-// 1. CORS
 var allowedHosts = builder.Configuration.GetSection("Cors:AllowedHosts").Get<List<string>>();
 builder.Services.AddCors(options =>
 {
@@ -27,32 +25,23 @@ builder.Services.AddCors(options =>
         });
 });
 
-// 2. Controllers y API Explorer
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-// 3. Swagger
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "BAS Challenge", Version = "v1" });
 });
 
-// 4. MediatR
+
 builder.Services.AddMediatR(cfg => {
     // Registra todos los handlers de los ensamblados especificados
     cfg.RegisterServicesFromAssembly(typeof(CreateHandler<>).Assembly);
 });
 
-// 5. Handlers Genéricos (si MediatR no los descubre automáticamente)
 
-// builder.Services.AddScoped(typeof(IRequestHandler<,>), typeof(CreateHandler<>));
-// builder.Services.AddScoped(typeof(IRequestHandler<,>), typeof(UpdateHandler<>));
-// builder.Services.AddScoped(typeof(IRequestHandler<,>), typeof(GetHandler<>));
-// builder.Services.AddScoped(typeof(IRequestHandler<,>), typeof(GetByIdHandler<>));
-// builder.Services.AddScoped(typeof(IRequestHandler<,>), typeof(DeleteHandler<>));
-
-
-// 6. Repositorios y DbContext
 builder.Services.AddScoped<IRepositoryFactory, RepositoryFactory>();
 builder.Services.AddScoped<SqlRepository>();
 builder.Services.AddScoped<IDbContext>(provider => provider.GetRequiredService<AppDbContext>());
