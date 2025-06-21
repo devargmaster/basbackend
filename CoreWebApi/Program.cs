@@ -34,7 +34,6 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddMediatR(cfg =>
 {
-    // Register handlers from both the API assembly and the Common assembly
     cfg.RegisterServicesFromAssemblyContaining(typeof(Program));
     cfg.RegisterServicesFromAssemblyContaining(typeof(GetHandler<>));
 });
