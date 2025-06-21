@@ -2,6 +2,7 @@ using Common.GenericsMethods.GenericResponse;
 using Domain.Models;
 using Infraestructure.Repositories;
 using MediatR;
+using Common.GenericsMethods;
 
 namespace Common.GenericsMethods.GenericHandlers;
 
