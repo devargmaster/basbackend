@@ -4,19 +4,16 @@ using Infraestructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace CoreWebApi.Migrations
+namespace Infraestructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250620234705_NuevasTablas")]
-    partial class NuevasTablas
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +22,7 @@ namespace CoreWebApi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CoreWebApi.Models.Entities.Permissions", b =>
+            modelBuilder.Entity("Domain.Models.Entities.Permissions", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -52,7 +49,7 @@ namespace CoreWebApi.Migrations
                     b.ToTable("Permissions");
                 });
 
-            modelBuilder.Entity("CoreWebApi.Models.Entities.PermissionsType", b =>
+            modelBuilder.Entity("Domain.Models.Entities.PermissionsType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -69,7 +66,7 @@ namespace CoreWebApi.Migrations
                     b.ToTable("PermissionsTypes");
                 });
 
-            modelBuilder.Entity("CoreWebApi.Models.Entities.Usuarios", b =>
+            modelBuilder.Entity("Domain.Models.Entities.Usuarios", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

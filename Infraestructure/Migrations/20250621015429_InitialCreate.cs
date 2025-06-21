@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace CoreWebApi.Migrations
+namespace Infraestructure.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -39,6 +39,19 @@ namespace CoreWebApi.Migrations
                 {
                     table.PrimaryKey("PK_PermissionsTypes", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Usuarios",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Usuarios", x => x.Id);
+                });
         }
 
         /// <inheritdoc />
@@ -49,6 +62,9 @@ namespace CoreWebApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "PermissionsTypes");
+
+            migrationBuilder.DropTable(
+                name: "Usuarios");
         }
     }
 }
