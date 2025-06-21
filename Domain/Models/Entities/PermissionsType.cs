@@ -1,6 +1,6 @@
-using Infraestructure.Models;
 
-namespace CoreWebApi.Models.Entities;
+
+namespace Domain.Models.Entities;
 
 public class PermissionsType : BaseDomainEntity
 {

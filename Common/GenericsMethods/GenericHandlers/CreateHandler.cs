@@ -1,5 +1,5 @@
 using Common.GenericsMethods.GenericResponse;
-using Infraestructure.Models;
+using Domain.Models;
 using Infraestructure.Repositories;
 using MediatR;
 

@@ -1,4 +1,4 @@
-namespace Infraestructure.Models;
+namespace Domain.Models;
 
 public abstract class BaseDomainEntity
 {

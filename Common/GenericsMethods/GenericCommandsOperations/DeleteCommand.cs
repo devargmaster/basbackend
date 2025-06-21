@@ -1,4 +1,4 @@
-using Infraestructure.Models;
+using Domain.Models;
 using MediatR;
 
 namespace Common.GenericsMethods;

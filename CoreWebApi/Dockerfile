@@ -8,6 +8,7 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
 # Copia y restaura los proyectos
+COPY ["CoreWebApi/appsettings.json", "./appsettings.json"]
 COPY ["CoreWebApi/CoreWebApi.csproj", "CoreWebApi/"]
 COPY ["Common/Common.csproj", "Common/"]
 COPY ["Exceptions/Exceptions.csproj", "Exceptions/"]

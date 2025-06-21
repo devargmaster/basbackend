@@ -7,7 +7,7 @@ services:
       dockerfile: CoreWebApi/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=sql_server_container;Database=BasChallenge;User Id=sa;Password=BasBackend!;TrustServerCertificate=True
+        - ConnectionStrings__SqlServerConnection=Server=sql_server_container;Database=BasChallenge;User Id=sa;Password=BasBackend!;TrustServerCertificate=True
     networks:
       - mynetwork
     ports:

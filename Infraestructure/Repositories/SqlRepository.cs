@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 using Infraestructure.Contexts;
-using Infraestructure.Models;
+using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 

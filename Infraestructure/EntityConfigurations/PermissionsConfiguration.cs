@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using CoreWebApi.Models.Entities;
-namespace CoreWebApi.ApiData.EntityConfigurations;
+using Domain.Models.Entities;
+namespace Infraestructure.ApiData.EntityConfigurations;
 
 public class PermissionsConfiguration: IEntityTypeConfiguration<Permissions>
 {

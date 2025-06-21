@@ -1,4 +1,4 @@
-using Infraestructure.Models;
+using Domain.Models;
 
 namespace Infraestructure.Repositories;
 

@@ -1,5 +1,5 @@
 using Common;
-using CoreWebApi.Models.Entities;
+using Domain.Models.Entities;
 using MediatR;
 
 namespace CoreWebApi.Controllers;

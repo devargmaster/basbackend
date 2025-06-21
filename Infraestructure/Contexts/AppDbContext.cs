@@ -1,12 +1,12 @@
-using CoreWebApi.Models.Entities;
+using Domain.Models.Entities;
 using Infraestructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 
-namespace CoreWebApi.ApiData;
+namespace Infraestructure.Contexts;
 
 public class AppDbContext : DbContext, IDbContext
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration configuration) : base(options)
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
     public DbContext GetContext()
@@ -16,6 +16,8 @@ public class AppDbContext : DbContext, IDbContext
 
     public DbSet<Permissions> Permissions { get; set; }
     public DbSet<PermissionsType> PermissionsTypes { get; set; }
+
+    public DbSet<Usuarios> Usuarios { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

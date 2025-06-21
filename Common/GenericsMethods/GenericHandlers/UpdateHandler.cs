@@ -1,4 +1,3 @@
-using System;
 
 namespace Common.GenericsMethods.GenericHandlers;
 

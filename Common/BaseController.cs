@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Net.Mime;
 using Common.GenericsMethods;
 using Common.GenericsMethods.Queries;
-using Infraestructure.Models;
+using Domain.Models;
 using Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
