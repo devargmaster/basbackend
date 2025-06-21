@@ -32,9 +32,11 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "BAS Challenge", Version = "v1" });
 });
 
-builder.Services.AddMediatR(cfg => {
-    // Registra todos los handlers de los ensamblados especificados
-    cfg.RegisterServicesFromAssembly(typeof(CreateHandler<>).Assembly);
+builder.Services.AddMediatR(cfg =>
+{
+    // Register handlers from both the API assembly and the Common assembly
+    cfg.RegisterServicesFromAssemblyContaining(typeof(Program));
+    cfg.RegisterServicesFromAssemblyContaining(typeof(GetHandler<>));
 });
 
 builder.Services.AddScoped<IRepositoryFactory, RepositoryFactory>();
