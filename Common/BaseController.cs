@@ -47,7 +47,11 @@ public class BaseController<T> : ControllerBase where T: BaseDomainEntity
     public async Task<ActionResult<T>> GetById([FromRoute] int id)
     {
 
-        var response = await _mediator.Send(new GetByIdQuery<T>(id: id));
+        var response = await _mediator.Send(new GetByIdQuery<T>(id));
+        if (response == null)
+        {
+            return NotFound();
+        }
         return Ok(response);
     }
     [HttpPost]
