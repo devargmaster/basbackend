@@ -3,6 +3,7 @@ using Domain.Models;
 using Infraestructure.Repositories;
 using MediatR;
 using Common.GenericsMethods;
+using Common.GenericsMethods.GenericCommandsOperations;
 
 namespace Common.GenericsMethods.GenericHandlers;
 

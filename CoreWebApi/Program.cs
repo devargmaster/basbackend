@@ -34,7 +34,6 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddMediatR(cfg =>
 {
-    // cfg.RegisterServicesFromAssembly(typeof(Common.Handlers.PermissionsGetHandler).Assembly);
     cfg.RegisterServicesFromAssembly(typeof(Common.Handlers.UsuariosGetHandler).Assembly);
 });
 

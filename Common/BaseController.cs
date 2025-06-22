@@ -7,6 +7,7 @@ using Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Common.GenericsMethods.GenericCommandsOperations;
 
 namespace Common;
 
