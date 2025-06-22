@@ -38,7 +38,7 @@ public class SqlRepository : IRepository
     {
         var entity = await context.Set<T>().FindAsync(id);
 
-        return entity;
+        return entity ?? throw new KeyNotFoundException($"Entity of type {typeof(T).Name} with ID {id} not found.") ;
     }
 
     public async Task<IEnumerable<T>> FindAsync<T>(Expression<Func<T, bool>> predicate) where T : BaseDomainEntity

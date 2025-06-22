@@ -23,6 +23,6 @@ public class GetByIdHandler<T> : IRequestHandler<GetByIdQuery<T>, GetByIdRespons
         var entity = await _repository.GetByIdAsync<T>(request.Id);
         return  entity != null 
             ? new GetByIdResponse<T>(entity) 
-            : null;
+            : null; 
     }
 }
