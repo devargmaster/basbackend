@@ -13,7 +13,9 @@ public class RepositoryFactory : IRepositoryFactory
     }
     public IRepository CreateRepository<T>() where T : BaseDomainEntity
     {
-        return  serviceProvider.GetRequiredService<SqlRepository>();
+        // aca yo le puse repositorio de sql, pero se puede cambiar
+        // por otro repositorio, como uno de mongo, o de otro tipo
+        return serviceProvider.GetRequiredService<SqlRepository>();
     }
 
 }

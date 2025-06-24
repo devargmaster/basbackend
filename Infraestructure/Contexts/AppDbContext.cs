@@ -1,4 +1,5 @@
 using Domain.Models.Entities;
+using Humanizer;
 using Infraestructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,19 +19,16 @@ public class AppDbContext : DbContext, IDbContext
     // public DbSet<PermissionsType> PermissionsTypes { get; set; }
 
     public DbSet<Usuarios> Usuarios { get; set; }
+    public DbSet<Inventario> Inventarios { get; set; }
+    public DbSet<Productos> Productos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // modelBuilder.Entity<Permissions>(entity =>
-        // {
-        //     entity.HasKey(e => e.Id);
-        //     entity.Property(e => e.Id).ValueGeneratedOnAdd();
-        // });
-
-        // modelBuilder.Entity<PermissionsType>(entity =>
-        // {
-        //     entity.HasKey(e => e.Id);
-        //     entity.Property(e => e.Id).ValueGeneratedOnAdd();
-        // });
+        modelBuilder.Entity<Productos>()
+       .Property(p => p.Precio)
+       .HasPrecision(18, 2); 
+        
+        base.OnModelCreating(modelBuilder);
+        
     }
 }
