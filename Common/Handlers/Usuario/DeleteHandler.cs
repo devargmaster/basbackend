@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Common.Usuario.Handlers;
 
-public class UsuariosUpdateHandler : UpdateHandler<Usuarios>, IRequestHandler<UpdateCommand<Usuarios>, Unit>
+public class DeleteHandler : DeleteHandler<Usuarios>, IRequestHandler<DeleteCommand<Usuarios>, Unit>
 {
-    public UsuariosUpdateHandler(IRepository repository) : base(repository) { }
+    public DeleteHandler(IRepositoryFactory repositoryFactory) : base(repositoryFactory) { }
 }

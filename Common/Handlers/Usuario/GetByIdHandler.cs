@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Common.Usuario.Handlers;
 
-public class UsuariosGetByIdHandler : GetByIdHandler<Usuarios>, IRequestHandler<GetByIdQuery<Usuarios>, GetByIdResponse<Usuarios>>
+public class GetByIdHandler : GetByIdHandler<Usuarios>, IRequestHandler<GetByIdQuery<Usuarios>, GetByIdResponse<Usuarios>>
 {
-    public UsuariosGetByIdHandler(IRepository repository) : base(repository) { }
+    public GetByIdHandler(IRepository repository) : base(repository) { }
 }

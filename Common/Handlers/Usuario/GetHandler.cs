@@ -6,10 +6,10 @@ using Domain.Models.Entities;
 using Infraestructure.Repositories;
 using MediatR;
 
-namespace Common.Usuario.Handlers;
+namespace Common.Handlers.Usuario;
 
-public class UsuariosGetHandler : GetHandler<Usuarios>, IRequestHandler<GetQuery<Usuarios>, GetResponse<Usuarios>>
+public class GetHandler : GetHandler<Usuarios>, IRequestHandler<GetQuery<Usuarios>, GetResponse<Usuarios>>
 {
-    public UsuariosGetHandler(IRepository repository) : base(repository) { }
+    public GetHandler(IRepository repository) : base(repository) { }
 
 }
