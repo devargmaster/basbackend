@@ -5,9 +5,9 @@ using Infraestructure.Repositories;
 using MediatR;
 using Common.GenericsMethods.GenericResponse;
 
-namespace Common.Usuario.Handlers;
+namespace Common.Handlers.Usuario;
 
-public class UsuariosCreateHandler : CreateHandler<Usuarios>, IRequestHandler<CreateCommand<Usuarios>, CreateResponse<Usuarios>>
+public class CreateHandler : CreateHandler<Usuarios>, IRequestHandler<CreateCommand<Usuarios>, CreateResponse<Usuarios>>
 {
-    public UsuariosCreateHandler(IRepository repository) : base(repository) { }
+    public   CreateHandler(IRepository repository) : base(repository) { }
 }
