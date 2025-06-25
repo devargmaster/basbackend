@@ -18,7 +18,7 @@ public class Productos : BaseDomainEntity
 
     public Usuarios? Usuarios { get; set; }
     public string? ImagenUrl { get; set; }
-    public string? CategoriaId { get; set; }
+    public int? CategoriaId { get; set; }
 
     public Categorias? Categoria { get; set; }
 
