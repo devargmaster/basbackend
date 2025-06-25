@@ -9,5 +9,7 @@ public class Usuarios : BaseDomainEntity
     public required string Password { get; set; }
     public string? Email { get; set; }
     public bool Activo { get; set; }
-    public DateTime Creado { get; set; } = DateTime.UtcNow; 
+     public DateTime Creado { get; set; } = DateTime.UtcNow;
+    public ICollection<Productos> Productos { get; set; } = new List<Productos>();
+    public ICollection<Inventario> Inventarios { get; set; } = new List<Inventario>(); 
 }
