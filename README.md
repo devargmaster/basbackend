@@ -1,6 +1,6 @@
-# basbackend
+# Bas Backend (Challenge)
 
-Este proyecto incluye una solución .NET para la API `CoreWebApi` y servicios relacionados.
+Este proyecto incluye una solución .NET para la API `Bas Backend` y servicios relacionados.
 
 ## Variables sensibles
 
