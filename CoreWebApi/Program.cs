@@ -34,7 +34,7 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddMediatR(cfg =>
 {
-    cfg.RegisterServicesFromAssembly(typeof(Common.Handlers.Usuario.GetHandler).Assembly);
+    cfg.RegisterServicesFromAssembly(typeof(Common.Handlers.Usuarios.UsuariosGetHandler).Assembly);
 });
 
 builder.Services.AddScoped<IRepositoryFactory, RepositoryFactory>();

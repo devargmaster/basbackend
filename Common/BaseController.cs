@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Common.GenericsMethods.GenericCommandsOperations;
+using Microsoft.EntityFrameworkCore;
 
 namespace Common;
 
@@ -95,7 +96,21 @@ public class BaseController<T> : ControllerBase where T: BaseDomainEntity
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> Delete([FromRoute] int id)
     {
-        await _mediator.Send(new DeleteCommand<T>(id));
-        return Ok();
+        try
+        {
+            var result = await _mediator.Send(new DeleteCommand<T>(id));
+            return Ok(result);
+        }
+        catch (DbUpdateException ex) when (ex.InnerException?.Message.Contains("REFERENCE constraint") == true)
+        {
+            return BadRequest(new
+            {
+                message = "No se puede eliminar el usuario porque tiene productos asociados. Elimine primero los productos relacionados antes de eliminar el usuario."
+            });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "Error interno del servidor.", detail = ex.Message });
+        }
     }
 }
