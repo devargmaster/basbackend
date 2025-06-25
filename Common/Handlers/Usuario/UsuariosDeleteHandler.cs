@@ -5,7 +5,7 @@ using Domain.Models.Entities;
 using Infraestructure.Repositories;
 using MediatR;
 
-namespace Common.Handlers;
+namespace Common.Usuario.Handlers;
 
 public class UsuariosDeleteHandler : DeleteHandler<Usuarios>, IRequestHandler<DeleteCommand<Usuarios>, Unit>
 {

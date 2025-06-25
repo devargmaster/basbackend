@@ -5,7 +5,7 @@ using Infraestructure.Repositories;
 using MediatR;
 using Common.GenericsMethods.GenericResponse;
 
-namespace Common.Handlers;
+namespace Common.Usuario.Handlers;
 
 public class UsuariosCreateHandler : CreateHandler<Usuarios>, IRequestHandler<CreateCommand<Usuarios>, CreateResponse<Usuarios>>
 {
