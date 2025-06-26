@@ -4,6 +4,7 @@ using Infraestructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infraestructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250626000001_fixUserFieldonProductos")]
+    partial class fixUserFieldonProductos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -166,9 +169,14 @@ namespace Infraestructure.Migrations
                     b.Property<string>("UnidadMedida")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UsuariosId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoriaId");
+
+                    b.HasIndex("UsuariosId");
 
                     b.ToTable("Productos");
                 });
@@ -236,7 +244,13 @@ namespace Infraestructure.Migrations
                         .WithMany("Productos")
                         .HasForeignKey("CategoriaId");
 
+                    b.HasOne("Domain.Models.Entities.Usuarios", "Usuarios")
+                        .WithMany()
+                        .HasForeignKey("UsuariosId");
+
                     b.Navigation("Categoria");
+
+                    b.Navigation("Usuarios");
                 });
 
             modelBuilder.Entity("Domain.Models.Entities.Categorias", b =>

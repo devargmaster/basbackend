@@ -12,13 +12,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Common;
 
-  [ApiController]
-  [Route("api/[controller]")]
-public class BaseController<T> : ControllerBase where T: BaseDomainEntity
+[ApiController]
+[Route("api/[controller]")]
+public class BaseController<T> : ControllerBase where T : BaseDomainEntity
 {
-    // utilizo mediator
     private readonly IMediator _mediator;
-    
 
     public BaseController(IMediator mediator)
     {
@@ -40,6 +38,7 @@ public class BaseController<T> : ControllerBase where T: BaseDomainEntity
         }
         return Ok(response.Data.ToList());
     }
+
     [HttpGet("{id}")]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -48,7 +47,6 @@ public class BaseController<T> : ControllerBase where T: BaseDomainEntity
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<T>> GetById([FromRoute] int id)
     {
-
         var response = await _mediator.Send(new GetByIdQuery<T>(id));
         if (response == null)
         {
@@ -56,6 +54,7 @@ public class BaseController<T> : ControllerBase where T: BaseDomainEntity
         }
         return Ok(response);
     }
+
     [HttpPost]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
@@ -69,6 +68,7 @@ public class BaseController<T> : ControllerBase where T: BaseDomainEntity
         var response = await _mediator.Send(new CreateCommand<T>(entityToCreate));
         return Ok(response);
     }
+
     [HttpPut("{id}")]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]

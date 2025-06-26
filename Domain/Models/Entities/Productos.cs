@@ -13,10 +13,6 @@ public class Productos : BaseDomainEntity
     public DateTime? Modificado { get; set; }
     public DateTime? Eliminado { get; set; }
     public DateTime? FechaUltimoMovimiento { get; set; }
-
-    public int UsuarioId { get; set; }
-
-    public Usuarios? Usuarios { get; set; }
     public string? ImagenUrl { get; set; }
     public int? CategoriaId { get; set; }
 

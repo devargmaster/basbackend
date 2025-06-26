@@ -40,11 +40,11 @@ public class SqlRepositoryTests
         var producto = new Productos { Nombre = "PETG", Descripcion = "PETG", Precio = 10m };
         await repo.CreateAsync(producto);
 
-        producto.Nombre = "Updated";
+        producto.Nombre = "Petg";
         await repo.UpdateAsync(producto);
 
         var result = await repo.GetByIdAsync<Productos>(producto.Id);
-        Assert.Equal("Updated", result.Nombre);
+        Assert.Equal("Petg", result.Nombre);
     }
 
     [Fact]
