@@ -44,6 +44,7 @@ builder.Services.AddScoped<SqlRepository>();
 builder.Services.AddScoped<IDbContext>(provider => provider.GetRequiredService<AppDbContext>());
 builder.Services.AddScoped<IRepository, SqlRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 var connectionString = builder.Configuration.GetConnectionString("SqlServerConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
