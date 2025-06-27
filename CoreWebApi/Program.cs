@@ -2,6 +2,7 @@ using Common.GenericsMethods;
 using Common.GenericsMethods.GenericHandlers;
 using Common.GenericsMethods.GenericResponse;
 using Common.GenericsMethods.Queries;
+using Common.Services;
 using Infraestructure.Contexts;
 using Domain.Models.Entities;
 using Infraestructure.Repositories;
@@ -20,7 +21,8 @@ builder.Services.AddCors(options =>
         {
             policyBuilder.WithOrigins(allowedHosts?.ToArray() ?? Array.Empty<string>())
                          .AllowAnyHeader()
-                         .AllowAnyMethod();
+                         .AllowAnyMethod()
+                         .AllowCredentials();
         });
 });
 
@@ -41,6 +43,7 @@ builder.Services.AddScoped<IRepositoryFactory, RepositoryFactory>();
 builder.Services.AddScoped<SqlRepository>();
 builder.Services.AddScoped<IDbContext>(provider => provider.GetRequiredService<AppDbContext>());
 builder.Services.AddScoped<IRepository, SqlRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var connectionString = builder.Configuration.GetConnectionString("SqlServerConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -49,11 +52,14 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // --- Construcción de la Aplicación ---
 var app = builder.Build();
 
-// --- Automatización de migraciones ---
+// --- Automatización de migraciones y seed de datos ---
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
+    
+    // Crear usuarios de prueba si no existen
+    await DatabaseSeeder.SeedAsync(db);
 }
 
 // --- Configuración del Pipeline de HTTP ---
