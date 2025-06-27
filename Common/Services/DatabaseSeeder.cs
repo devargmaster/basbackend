@@ -1,5 +1,6 @@
 using Domain.Models.Entities;
 using Infraestructure.Contexts;
+using Infraestructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Common.Services;
@@ -8,50 +9,21 @@ public static class DatabaseSeeder
 {
     public static async Task SeedAsync(AppDbContext context)
     {
+        // Asegurarse de que la base de datos existe
+        await context.Database.EnsureCreatedAsync();
 
-        if (await context.Set<Usuarios>().AnyAsync())
+        // Aplicar migraciones pendientes
+        if ((await context.Database.GetPendingMigrationsAsync()).Any())
         {
-            return; 
+            await context.Database.MigrateAsync();
         }
 
+        // Seed de usuarios
+        await UserSeeder.SeedUsersAsync(context);
 
-        var usuarios = new List<Usuarios>
-        {
-            new Usuarios
-            {
-                Nombre = "Administrador",
-                Apellido = "Sistema",
-                UserName = "admin",
-                Password = "admin123",
-                Email = "admin@bas.com",
-                Activo = true
-            },
-            new Usuarios
-            {
-                Nombre = "Juan",
-                Apellido = "Pérez",
-                UserName = "jperez",
-                Password = "juan123",
-                Email = "juan.perez@bas.com",
-                Activo = true
-            },
-            new Usuarios
-            {
-                Nombre = "María",
-                Apellido = "García",
-                UserName = "mgarcia",
-                Password = "maria123",
-                Email = "maria.garcia@bas.com",
-                Activo = true
-            }
-        };
-
-        context.Set<Usuarios>().AddRange(usuarios);
-        await context.SaveChangesAsync();
+        // Seed de productos y stock
+        await UserSeeder.SeedProductsAndStockAsync(context);
         
-        Console.WriteLine("Usuarios de prueba creados:");
-        Console.WriteLine("- admin / admin123 (Administrador)");
-        Console.WriteLine("- jperez / juan123 (Juan Pérez)");
-        Console.WriteLine("- mgarcia / maria123 (María García)");
+        Console.WriteLine("Base de datos inicializada con datos de prueba.");
     }
 }
