@@ -29,18 +29,18 @@ public class AuthService : IAuthService
     {
         try
         {
-            // Buscar usuario por UserName
-            var usuarios = await _repository.GetAsync<Usuarios>();
-            var usuario = usuarios.FirstOrDefault(u => 
-                u.UserName == request.UserName && u.Activo);
+            // Buscar usuario incluyendo el rol
+            var usuario = await _repository.FindWithIncludeAsync<Usuarios>(
+                u => u.UserName == request.UserName && u.Activo,
+                u => u.Rol!);
 
             if (usuario == null)
                 return null;
 
-
             if (usuario.Password != request.Password)
                 return null;
 
+            Console.WriteLine($"Login - Usuario encontrado: {usuario.UserName}, RolId: {usuario.RolId}, Rol: {usuario.Rol?.Nombre}");
 
             var token = GenerateSimpleToken(usuario);
 
@@ -51,11 +51,22 @@ public class AuthService : IAuthService
                 Apellido = usuario.Apellido,
                 UserName = usuario.UserName,
                 Email = usuario.Email,
-                Token = token
+                Token = token,
+                Rol = usuario.Rol != null ? new RolInfo
+                {
+                    Id = usuario.Rol.Id,
+                    Nombre = usuario.Rol.Nombre,
+                    EsAdministrador = usuario.Rol.EsAdministrador,
+                    PuedeGestionarUsuarios = usuario.Rol.PuedeGestionarUsuarios,
+                    PuedeGestionarProductos = usuario.Rol.PuedeGestionarProductos,
+                    PuedeGestionarInventario = usuario.Rol.PuedeGestionarInventario,
+                    PuedeVerReportes = usuario.Rol.PuedeVerReportes
+                } : null
             };
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            Console.WriteLine($"Error en LoginAsync: {ex.Message}");
             return null;
         }
     }
@@ -64,14 +75,17 @@ public class AuthService : IAuthService
     {
         try
         {
-
             var userId = DecodeSimpleToken(token);
             if (userId == null) return null;
 
-            var usuarios = await _repository.GetAsync<Usuarios>();
-            var usuario = usuarios.FirstOrDefault(u => u.Id == userId && u.Activo);
+            // Buscar usuario incluyendo el rol
+            var usuario = await _repository.FindWithIncludeAsync<Usuarios>(
+                u => u.Id == userId && u.Activo,
+                u => u.Rol!);
 
             if (usuario == null) return null;
+
+            Console.WriteLine($"Usuario encontrado: {usuario.UserName}, RolId: {usuario.RolId}, Rol: {usuario.Rol?.Nombre}");
 
             return new AuthUser
             {
@@ -79,11 +93,22 @@ public class AuthService : IAuthService
                 Nombre = usuario.Nombre,
                 Apellido = usuario.Apellido,
                 UserName = usuario.UserName,
-                Email = usuario.Email
+                Email = usuario.Email,
+                Rol = usuario.Rol != null ? new RolInfo
+                {
+                    Id = usuario.Rol.Id,
+                    Nombre = usuario.Rol.Nombre,
+                    EsAdministrador = usuario.Rol.EsAdministrador,
+                    PuedeGestionarUsuarios = usuario.Rol.PuedeGestionarUsuarios,
+                    PuedeGestionarProductos = usuario.Rol.PuedeGestionarProductos,
+                    PuedeGestionarInventario = usuario.Rol.PuedeGestionarInventario,
+                    PuedeVerReportes = usuario.Rol.PuedeVerReportes
+                } : null
             };
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            Console.WriteLine($"Error en ValidateTokenAsync: {ex.Message}");
             return null;
         }
     }

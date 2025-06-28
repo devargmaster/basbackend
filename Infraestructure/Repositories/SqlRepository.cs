@@ -88,4 +88,30 @@ public class SqlRepository : IRepository
         }
         return entity;
     }
+
+    public async Task<T?> FindWithIncludeAsync<T>(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes) where T : BaseDomainEntity
+    {
+        try
+        {
+            var query = context.Set<T>().AsQueryable();
+            
+            // Aplicar includes
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+            
+            // Aplicar filtro y obtener primer resultado
+            var entity = await query.FirstOrDefaultAsync(predicate);
+            
+            logger.LogInformation($"Entity of type {typeof(T).Name} queried with includes from Sql Server.");
+            
+            return entity;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, $"Error retrieving entity of type {typeof(T).Name} with includes.");
+            return null;
+        }
+    }
 }
