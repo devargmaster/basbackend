@@ -62,6 +62,20 @@ namespace CoreWebApi.Controllers
             }
         }
 
+        [HttpGet("movimientos")]
+        public async Task<IActionResult> GetAllMovements()
+        {
+            try
+            {
+                var movements = await _mediator.Send(new GetAllMovementsQuery());
+                return Ok(movements);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error al obtener movimientos", error = ex.Message });
+            }
+        }
+
         [HttpPost("movimientos")]
         public async Task<IActionResult> CreateMovement([FromBody] CreateMovementRequest request)
         {
