@@ -62,10 +62,27 @@ namespace CoreWebApi.Controllers
             }
         }
 
+        [HttpPost("movimientos")]
+        public async Task<IActionResult> CreateMovement([FromBody] CreateMovementRequest request)
+        {
+            try
+            {
+                var result = await _mediator.Send(new CreateMovementCommand(request));
+                if (!result)
+                {
+                    return BadRequest(new { message = "Error al crear movimiento de inventario" });
+                }
+                return Ok(new { message = "Movimiento de inventario creado correctamente" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error al crear movimiento", error = ex.Message });
+            }
+        }
+
         // DEPRECATED ENDPOINTS - USE GENERIC CONTROLLERS INSTEAD:
         // - GET /api/inventario/productos/{id}/stock -> Use GET /api/stock?filter=productoId:{id}
         // - PUT /api/inventario/productos/{id}/stock -> Use PUT /api/stock/{stockId}
-        // - POST /api/inventario/movimientos -> Use POST /api/movimientosinventario
         // - GET /api/inventario/movimientos -> Use GET /api/movimientosinventario
         // - GET /api/inventario/productos/{id}/movimientos -> Use GET /api/movimientosinventario?filter=productoId:{id}
     }
