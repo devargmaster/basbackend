@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Common.Services;
+using Common.Handlers.Inventario;
 using Domain.Models.DTOs;
+using MediatR;
 
 namespace CoreWebApi.Controllers
 {
@@ -8,11 +9,11 @@ namespace CoreWebApi.Controllers
     [Route("api/[controller]")]
     public class InventarioController : ControllerBase
     {
-        private readonly IInventoryService _inventoryService;
+        private readonly IMediator _mediator;
 
-        public InventarioController(IInventoryService inventoryService)
+        public InventarioController(IMediator mediator)
         {
-            _inventoryService = inventoryService;
+            _mediator = mediator;
         }
 
         [HttpGet("productos-con-stock")]
@@ -20,7 +21,7 @@ namespace CoreWebApi.Controllers
         {
             try
             {
-                var products = await _inventoryService.GetProductsWithStockAsync();
+                var products = await _mediator.Send(new GetProductsWithStockQuery());
                 return Ok(products);
             }
             catch (Exception ex)
@@ -29,85 +30,21 @@ namespace CoreWebApi.Controllers
             }
         }
 
-        [HttpGet("productos/{id}/stock")]
-        public async Task<IActionResult> GetProductStock(int id)
+        [HttpGet("productos/{id}")]
+        public async Task<IActionResult> GetProductWithStock(int id)
         {
             try
             {
-                var stock = await _inventoryService.GetStockByProductAsync(id);
-                if (stock == null)
+                var product = await _mediator.Send(new GetProductWithStockQuery(id));
+                if (product == null)
                 {
-                    return NotFound(new { message = "Stock no encontrado para el producto" });
+                    return NotFound(new { message = "Producto no encontrado" });
                 }
-                return Ok(stock);
+                return Ok(product);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "Error al obtener stock del producto", error = ex.Message });
-            }
-        }
-
-        [HttpPut("productos/{id}/stock")]
-        public async Task<IActionResult> UpdateStock(int id, [FromBody] UpdateStockRequest request)
-        {
-            try
-            {
-                var result = await _inventoryService.UpdateStockAsync(id, request);
-                if (!result)
-                {
-                    return BadRequest(new { message = "Error al actualizar stock" });
-                }
-                return Ok(new { message = "Stock actualizado correctamente" });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Error al actualizar stock", error = ex.Message });
-            }
-        }
-
-        [HttpPost("movimientos")]
-        public async Task<IActionResult> CreateMovement([FromBody] CreateMovementRequest request)
-        {
-            try
-            {
-                var result = await _inventoryService.CreateMovementAsync(request);
-                if (!result)
-                {
-                    return BadRequest(new { message = "Error al crear movimiento de inventario" });
-                }
-                return Ok(new { message = "Movimiento de inventario creado correctamente" });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Error al crear movimiento", error = ex.Message });
-            }
-        }
-
-        [HttpGet("movimientos")]
-        public async Task<IActionResult> GetMovements()
-        {
-            try
-            {
-                var movements = await _inventoryService.GetMovementsAsync();
-                return Ok(movements);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Error al obtener movimientos", error = ex.Message });
-            }
-        }
-
-        [HttpGet("productos/{id}/movimientos")]
-        public async Task<IActionResult> GetProductMovements(int id)
-        {
-            try
-            {
-                var movements = await _inventoryService.GetMovementsByProductAsync(id);
-                return Ok(movements);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Error al obtener movimientos del producto", error = ex.Message });
+                return StatusCode(500, new { message = "Error al obtener producto con stock", error = ex.Message });
             }
         }
 
@@ -116,7 +53,7 @@ namespace CoreWebApi.Controllers
         {
             try
             {
-                var movements = await _inventoryService.GetRecentMovementsAsync(count);
+                var movements = await _mediator.Send(new GetRecentMovementsQuery(count));
                 return Ok(movements);
             }
             catch (Exception ex)
@@ -124,5 +61,12 @@ namespace CoreWebApi.Controllers
                 return StatusCode(500, new { message = "Error al obtener movimientos recientes", error = ex.Message });
             }
         }
+
+        // DEPRECATED ENDPOINTS - USE GENERIC CONTROLLERS INSTEAD:
+        // - GET /api/inventario/productos/{id}/stock -> Use GET /api/stock?filter=productoId:{id}
+        // - PUT /api/inventario/productos/{id}/stock -> Use PUT /api/stock/{stockId}
+        // - POST /api/inventario/movimientos -> Use POST /api/movimientosinventario
+        // - GET /api/inventario/movimientos -> Use GET /api/movimientosinventario
+        // - GET /api/inventario/productos/{id}/movimientos -> Use GET /api/movimientosinventario?filter=productoId:{id}
     }
 }

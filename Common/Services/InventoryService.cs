@@ -5,6 +5,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Common.Services;
 
+/// <summary>
+/// InventoryService - REFACTORIZADO para la nueva arquitectura
+/// 
+/// Este servicio ahora mantiene SOLO funcionalidad con valor agregado que no está disponible 
+/// en los controladores genéricos. Para operaciones CRUD básicas, usar los controladores genéricos:
+/// 
+/// CONTROLADORES GENÉRICOS (RECOMENDADOS):
+/// - GET /api/stock - Obtener todos los stocks
+/// - GET /api/stock/{id} - Obtener stock por ID  
+/// - PUT /api/stock/{id} - Actualizar stock
+/// - POST /api/movimientosinventario - Crear movimiento
+/// - GET /api/movimientosinventario - Obtener movimientos
+/// 
+/// ENDPOINTS CON VALOR AGREGADO (ESTE SERVICIO):
+/// - GetProductsWithStockAsync() - Combina productos + stock + categorías
+/// - GetProductWithStockAsync() - Producto individual con datos agregados
+/// - GetRecentMovementsAsync() - Movimientos recientes con datos enriquecidos
+/// </summary>
 public class InventoryService : IInventoryService
 {
     private readonly IRepository _repository;
