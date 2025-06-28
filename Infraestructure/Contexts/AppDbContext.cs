@@ -22,12 +22,6 @@ public class AppDbContext : DbContext, IDbContext
     public DbSet<Categorias> Categorias { get; set; }
     public DbSet<Stock> Stock { get; set; }
     public DbSet<MovimientosInventario> MovimientosInventario { get; set; }
-    
-    // Mantenido por compatibilidad
-    #pragma warning disable CS0618 // Type or member is obsolete
-    [Obsolete("Usar MovimientosInventario y Stock en su lugar")]
-    public DbSet<Inventario> Inventarios { get; set; }
-    #pragma warning restore CS0618 // Type or member is obsolete
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -111,24 +105,6 @@ public class AppDbContext : DbContext, IDbContext
                 .HasForeignKey(m => m.UsuarioId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
-
-        // Configuración de Inventario (depreciado, pero mantenido por compatibilidad)
-        #pragma warning disable CS0618 // Type or member is obsolete
-        modelBuilder.Entity<Inventario>(entity =>
-        {
-            entity.HasKey(e => e.Id);
-            
-            entity.HasOne(i => i.Producto)
-                .WithMany()
-                .HasForeignKey(i => i.ProductoId)
-                .OnDelete(DeleteBehavior.Restrict);
-                
-            entity.HasOne(i => i.Usuario)
-                .WithMany()
-                .HasForeignKey(i => i.UsuarioId)
-                .OnDelete(DeleteBehavior.Restrict);
-        });
-        #pragma warning restore CS0618 // Type or member is obsolete
 
         base.OnModelCreating(modelBuilder);
         
