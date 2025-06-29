@@ -1,15 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
 using Common.Services;
+using Common;
+using Domain.Models.Entities;
+using MediatR;
 
 namespace CoreWebApi.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class DashboardController : ControllerBase
+    public class DashboardController : BaseController<Usuarios> // Using Usuarios as placeholder, overriding functionality
     {
         private readonly IDashboardService _dashboardService;
 
-        public DashboardController(IDashboardService dashboardService)
+        public DashboardController(IMediator mediator, IDashboardService dashboardService) : base(mediator)
         {
             _dashboardService = dashboardService;
         }
@@ -17,15 +18,8 @@ namespace CoreWebApi.Controllers
         [HttpGet("stats")]
         public async Task<IActionResult> GetDashboardStats()
         {
-            try
-            {
-                var stats = await _dashboardService.GetDashboardStatsAsync();
-                return Ok(stats);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Error al obtener estadísticas", error = ex.Message });
-            }
+            var stats = await _dashboardService.GetDashboardStatsAsync();
+            return Ok(stats);
         }
     }
 }

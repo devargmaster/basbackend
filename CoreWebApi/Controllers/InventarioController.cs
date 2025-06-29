@@ -1,17 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Common.Handlers.Inventario;
 using Domain.Models.DTOs;
+using Domain.Models.Entities;
 using MediatR;
+using Common;
 
 namespace CoreWebApi.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class InventarioController : ControllerBase
+    public class InventarioController : BaseController<MovimientosInventario>
     {
         private readonly IMediator _mediator;
 
-        public InventarioController(IMediator mediator)
+        public InventarioController(IMediator mediator) : base(mediator)
         {
             _mediator = mediator;
         }
@@ -19,79 +19,44 @@ namespace CoreWebApi.Controllers
         [HttpGet("productos-con-stock")]
         public async Task<IActionResult> GetProductsWithStock()
         {
-            try
-            {
-                var products = await _mediator.Send(new GetProductsWithStockQuery());
-                return Ok(products);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Error al obtener productos con stock", error = ex.Message });
-            }
+            var products = await _mediator.Send(new GetProductsWithStockQuery());
+            return Ok(products);
         }
 
         [HttpGet("productos/{id}")]
         public async Task<IActionResult> GetProductWithStock(int id)
         {
-            try
+            var product = await _mediator.Send(new GetProductWithStockQuery(id));
+            if (product == null)
             {
-                var product = await _mediator.Send(new GetProductWithStockQuery(id));
-                if (product == null)
-                {
-                    return NotFound(new { message = "Producto no encontrado" });
-                }
-                return Ok(product);
+                return NotFound(new { message = "Producto no encontrado" });
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Error al obtener producto con stock", error = ex.Message });
-            }
+            return Ok(product);
         }
 
         [HttpGet("movimientos/recientes")]
         public async Task<IActionResult> GetRecentMovements([FromQuery] int count = 10)
         {
-            try
-            {
-                var movements = await _mediator.Send(new GetRecentMovementsQuery(count));
-                return Ok(movements);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Error al obtener movimientos recientes", error = ex.Message });
-            }
+            var movements = await _mediator.Send(new GetRecentMovementsQuery(count));
+            return Ok(movements);
         }
 
         [HttpGet("movimientos")]
         public async Task<IActionResult> GetAllMovements()
         {
-            try
-            {
-                var movements = await _mediator.Send(new GetAllMovementsQuery());
-                return Ok(movements);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Error al obtener movimientos", error = ex.Message });
-            }
+            var movements = await _mediator.Send(new GetAllMovementsQuery());
+            return Ok(movements);
         }
 
         [HttpPost("movimientos")]
         public async Task<IActionResult> CreateMovement([FromBody] CreateMovementRequest request)
         {
-            try
+            var result = await _mediator.Send(new CreateMovementCommand(request));
+            if (!result)
             {
-                var result = await _mediator.Send(new CreateMovementCommand(request));
-                if (!result)
-                {
-                    return BadRequest(new { message = "Error al crear movimiento de inventario" });
-                }
-                return Ok(new { message = "Movimiento de inventario creado correctamente" });
+                return BadRequest(new { message = "Error al crear movimiento de inventario" });
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Error al crear movimiento", error = ex.Message });
-            }
+            return Ok(new { message = "Movimiento de inventario creado correctamente" });
         }
 
         // DEPRECATED ENDPOINTS - USE GENERIC CONTROLLERS INSTEAD:

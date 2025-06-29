@@ -65,8 +65,36 @@ public class BaseController<T> : ControllerBase where T : BaseDomainEntity
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<Guid>> Create([FromBody] T entityToCreate)
     {
-        var response = await _mediator.Send(new CreateCommand<T>(entityToCreate));
-        return Ok(response);
+        try
+        {
+            var response = await _mediator.Send(new CreateCommand<T>(entityToCreate));
+            return Ok(response);
+        }
+        catch (DbUpdateException ex) when (ex.InnerException?.Message.Contains("duplicate key") == true)
+        {
+            // Extraer el campo que causó el problema
+            var message = ex.InnerException.Message;
+            if (message.Contains("'IX_Categorias_Codigo'"))
+            {
+                return BadRequest(new { message = "Ya existe una categoría con ese código. Por favor, use un código diferente o déjelo vacío." });
+            }
+            else if (message.Contains("'IX_Productos_CodigoBarras'"))
+            {
+                return BadRequest(new { message = "Ya existe un producto con ese código de barras. Por favor, use un código diferente o déjelo vacío." });
+            }
+            else if (message.Contains("'IX_Usuarios_UserName'"))
+            {
+                return BadRequest(new { message = "Ya existe un usuario con ese nombre de usuario. Por favor, use uno diferente." });
+            }
+            else
+            {
+                return BadRequest(new { message = "Ya existe un registro con esos datos. Por favor, verifique los campos únicos." });
+            }
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "Error interno del servidor.", detail = ex.Message });
+        }
     }
 
     [HttpPut("{id}")]
