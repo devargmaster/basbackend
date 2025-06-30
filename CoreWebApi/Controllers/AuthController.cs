@@ -1,16 +1,17 @@
+using Common;
 using Common.Services;
 using Domain.Models.DTOs;
+using Domain.Models.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoreWebApi.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class AuthController : ControllerBase
+public class AuthController : BaseController<Usuarios>
 {
     private readonly IAuthService _authService;
 
-    public AuthController(IAuthService authService)
+    public AuthController(IAuthService authService, IMediator mediator) : base(mediator)
     {
         _authService = authService;
     }
@@ -68,8 +69,6 @@ public class AuthController : ControllerBase
     [HttpPost("logout")]
     public IActionResult Logout()
     {
-        // En este sistema simple, el logout es del lado del cliente
-        // Simplemente eliminan el token del localStorage
         return Ok(new { message = "Sesión cerrada exitosamente" });
     }
 }
